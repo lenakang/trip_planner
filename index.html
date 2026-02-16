@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>보라카이 여행 견적 시뮬레이터</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>🏝️ 보라카이 4박 5일 여행 견적 시뮬레이터</h1>
+            </header>
+
+            <div class="progress-indicator" id="progress">1/6 단계</div>
+
+            <div class="content-area">
+                <!-- STEP 1: 항공권 -->
+                <div class="step-section active" id="step1">
+                    <h2 class="step-title">✈️ 항공권</h2>
+                    <p class="step-desc">보라카이 왕복 항공권 평균가 기준</p>
+
+                    <div class="fixed-notice">
+                        <strong>고정 항목</strong><br />
+                        이 항목은 변경할 수 없으며, 기본 견적에 포함됩니다.
+                    </div>
+
+                    <div
+                        class="option-card single-option"
+                        onclick="selectFixed(1, 400000)"
+                    >
+                        <div class="option-header">
+                            <div class="option-name">인천 ↔ 보라카이 왕복</div>
+                            <div class="option-price">400,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 1인 기준 평균가<br />
+                            • 직항 또는 경유 포함<br />
+                            • 시즌에 따라 변동 가능
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button
+                            class="next-btn"
+                            id="next-1"
+                            disabled
+                            onclick="nextStep(2)"
+                        >
+                            다음 단계
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: 픽드랍 -->
+                <div class="step-section" id="step2">
+                    <h2 class="step-title">🚗 픽드랍</h2>
+                    <p class="step-desc">공항 ↔ 리조트 왕복 이동 서비스</p>
+
+                    <div class="fixed-notice">
+                        <strong>필수 선택 항목</strong><br />
+                        안전하고 편리한 이동을 위해 필수로 포함됩니다.
+                    </div>
+
+                    <div
+                        class="option-card single-option"
+                        onclick="selectFixed(2, 66000)"
+                    >
+                        <div class="option-header">
+                            <div class="option-name">한국인 업체 픽드랍</div>
+                            <div class="option-price">66,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 공항 → 리조트 → 공항<br />
+                            • 한국어 가능 기사님<br />
+                            • 1인 기준 $45
+                        </div>
+                    </div>
+
+                    <div class="benefit-notice">
+                        🎁 <strong>픽드랍 선택 혜택</strong><br />
+                        선셋 세일링 무료 제공! (66,000원 상당)
+                    </div>
+                    <div class="button-container">
+                        <button
+                            class="next-btn"
+                            style="background: #adb5bd; margin-right: 10px"
+                            onclick="prevStep(1)"
+                        >
+                            이전
+                        </button>
+                        <button
+                            class="next-btn"
+                            id="next-2"
+                            onclick="nextStep(3)"
+                            disabled
+                        >
+                            다음 단계
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: 식사 -->
+                <div class="step-section" id="step3">
+                    <h2 class="step-title">🍽️ 식사</h2>
+                    <p class="step-desc">4박 5일 기준 식비</p>
+
+                    <div class="fixed-notice">
+                        <strong>고정 항목</strong><br />
+                        조식 제외, 중식/석식 평균 식비 기준
+                    </div>
+
+                    <div
+                        class="option-card single-option"
+                        onclick="selectFixed(3, 220000)"
+                    >
+                        <div class="option-header">
+                            <div class="option-name">4박 5일 식비</div>
+                            <div class="option-price">220,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 1인 기준 평균 식비<br />
+                            • 조식 제외 (리조트 조식 별도)<br />
+                            • 중식 + 석식 포함
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button
+                            class="next-btn"
+                            style="background: #adb5bd; margin-right: 10px"
+                            onclick="prevStep(2)"
+                        >
+                            이전
+                        </button>
+                        <button
+                            class="next-btn"
+                            id="next-3"
+                            onclick="nextStep(4)"
+                            disabled
+                        >
+                            다음 단계
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: 숙소 -->
+                <div id="step4" class="step-section">
+                    <h2 class="step-title">숙소 선택</h2>
+                    <p class="step-desc">
+                        단일 숙소를 이용하시거나, 2박씩 나누어 이용하실 수
+                        있습니다.
+                    </p>
+
+                    <div class="radio-group">
+                        <div
+                            class="radio-option selected"
+                            onclick="selectAccommodationType('single')"
+                        >
+                            단일 숙박 (4박)
+                        </div>
+                        <div
+                            class="radio-option"
+                            onclick="selectAccommodationType('split')"
+                        >
+                            나누어 숙박 (2박+2박)
+                        </div>
+                    </div>
+
+                    <div id="accommodation-single">
+                        <div
+                            class="option-card"
+                            onclick="selectAccommodation('single-1', 400000)"
+                        >
+                            <div class="option-header">
+                                <span class="option-name"
+                                    >A 리조트 (4박 전일정)</span
+                                >
+                                <span class="option-price">400,000원</span>
+                            </div>
+                            <p class="option-features">
+                                전 일정 한 숙소에서 편안하게 머무릅니다.
+                            </p>
+                        </div>
+                        <div
+                            class="option-card"
+                            onclick="selectAccommodation('single-2', 600000)"
+                        >
+                            <div class="option-header">
+                                <span class="option-name"
+                                    >B 풀빌라 (4박 전일정)</span
+                                >
+                                <span class="option-price">600,000원</span>
+                            </div>
+                            <p class="option-features">
+                                고급스러운 풀빌라에서 프라이빗한 휴식을
+                                즐깁니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div id="accommodation-split" style="display: none">
+                        <div class="fixed-notice">
+                            첫 번째 숙소와 두 번째 숙소를 각각 하나씩 선택해
+                            주세요.
+                        </div>
+
+                        <div class="split-group-a" style="margin-bottom: 30px">
+                            <h3
+                                style="
+                                    margin-bottom: 15px;
+                                    font-size: 18px;
+                                    color: #667eea;
+                                "
+                            >
+                                [1~2일차 숙소]
+                            </h3>
+                            <div
+                                class="option-card"
+                                onclick="
+                                    selectAccommodation('split-a-1', 200000)
+                                "
+                            >
+                                <div class="option-header">
+                                    <span class="option-name"
+                                        >시내 중심 호텔</span
+                                    >
+                                    <span class="option-price">200,000원</span>
+                                </div>
+                            </div>
+                            <div
+                                class="option-card"
+                                onclick="
+                                    selectAccommodation('split-a-2', 300000)
+                                "
+                            >
+                                <div class="option-header">
+                                    <span class="option-name"
+                                        >해변가 리조트</span
+                                    >
+                                    <span class="option-price">300,000원</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr
+                            style="
+                                border: 0;
+                                border-top: 1px dashed #dee2e6;
+                                margin-bottom: 30px;
+                            "
+                        />
+
+                        <div class="split-group-b">
+                            <h3
+                                style="
+                                    margin-bottom: 15px;
+                                    font-size: 18px;
+                                    color: #667eea;
+                                "
+                            >
+                                [3~4일차 숙소]
+                            </h3>
+                            <div
+                                class="option-card"
+                                onclick="
+                                    selectAccommodation('split-b-1', 220000)
+                                "
+                            >
+                                <div class="option-header">
+                                    <span class="option-name"
+                                        >숲속 힐링 방갈로</span
+                                    >
+                                    <span class="option-price">220,000원</span>
+                                </div>
+                            </div>
+                            <div
+                                class="option-card"
+                                onclick="
+                                    selectAccommodation('split-b-2', 350000)
+                                "
+                            >
+                                <div class="option-header">
+                                    <span class="option-name"
+                                        >프라이빗 풀빌라</span
+                                    >
+                                    <span class="option-price">350,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button
+                            class="next-btn"
+                            style="background: #adb5bd; margin-right: 10px"
+                            onclick="prevStep(3)"
+                        >
+                            이전
+                        </button>
+                        <button
+                            class="next-btn"
+                            id="next-4"
+                            onclick="nextStep(5)"
+                            disabled
+                        >
+                            다음 단계
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 5: 액티비티 -->
+                <div class="step-section" id="step5">
+                    <h2 class="step-title">🌊 액티비티</h2>
+                    <p class="step-desc">
+                        원하는 만큼 선택하세요 (선택 안 해도 다음으로 진행 가능)
+                    </p>
+
+                    <h3 style="margin-bottom: 15px">해양 액티비티</h3>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">
+                                에스보라카이 제트스키 호핑투어
+                            </div>
+                            <div class="option-price">103,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 제트스키 + 섬 호핑<br />
+                            • $70 (약 103,000원)
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('jetski', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-jetski">0</div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('jetski', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">페러세일링</div>
+                            <div class="option-price">118,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 하늘에서 보는 보라카이<br />
+                            • $80 (약 118,000원)
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('parasailing', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-parasailing">
+                                0
+                            </div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('parasailing', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">헬멧 다이빙</div>
+                            <div class="option-price">44,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 비 수영자도 가능<br />
+                            • $30 (약 44,000원)
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('diving', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-diving">0</div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('diving', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 30px 0 15px 0">요트 투어</h3>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">블랙펄 요트</div>
+                            <div class="option-price">85,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 프라이빗 요트 투어<br />
+                            • 선셋 크루즈
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('blackpearl', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-blackpearl">
+                                0
+                            </div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('blackpearl', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">보자무싸 요트</div>
+                            <div class="option-price">102,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 럭셔리 요트 투어<br />
+                            • 식사 포함
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('bojamussa', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-bojamussa">
+                                0
+                            </div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('bojamussa', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <h3 style="margin: 30px 0 15px 0">파티</h3>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">말룸파티</div>
+                            <div class="option-price">29,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 비치 파티<br />
+                            • $20 (약 29,000원)
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('malumparty', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-malumparty">
+                                0
+                            </div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('malumparty', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button
+                            class="next-btn"
+                            style="background: #adb5bd; margin-right: 10px"
+                            onclick="prevStep(4)"
+                        >
+                            이전
+                        </button>
+                        <button
+                            class="next-btn"
+                            id="next-5"
+                            onclick="nextStep(6)"
+                            disabled
+                        >
+                            다음 단계
+                        </button>
+                    </div>
+                </div>
+
+                <!-- STEP 6: 마사지 -->
+                <div class="step-section" id="step6">
+                    <h2 class="step-title">💆‍♀️ 마사지</h2>
+                    <p class="step-desc">
+                        복수 선택 가능 (선택 안 해도 완료 가능)
+                    </p>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">카바얀 마사지 (90분)</div>
+                            <div class="option-price">30,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 가성비 최고<br />
+                            • 90분 코스
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('kabayan', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-kabayan">
+                                0
+                            </div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('kabayan', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">보라스파 (120분)</div>
+                            <div class="option-price">70,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 강한 압 선호<br />
+                            • 120분 코스
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('boraspa', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-boraspa">
+                                0
+                            </div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('boraspa', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="option-card">
+                        <div class="option-header">
+                            <div class="option-name">루나스파 (60분)</div>
+                            <div class="option-price">45,000원</div>
+                        </div>
+                        <div class="option-features">
+                            • 오일 퀄리티 우수<br />
+                            • 60분 코스
+                        </div>
+                        <div class="counter-control">
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('lunaspa', -1)"
+                            >
+                                −
+                            </button>
+                            <div class="counter-value" id="count-lunaspa">
+                                0
+                            </div>
+                            <button
+                                class="counter-btn"
+                                onclick="changeCount('lunaspa', 1)"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="button-container">
+                        <button
+                            class="next-btn"
+                            style="background: #adb5bd; margin-right: 10px"
+                            onclick="prevStep(5)"
+                        >
+                            이전
+                        </button>
+                        <button
+                            class="next-btn"
+                            id="next-6"
+                            onclick="showSummary()"
+                            disabled
+                        >
+                            견적 완료
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-content">
+                <div>
+                    <div
+                        style="font-size: 14px; color: #666; margin-bottom: 5px"
+                    >
+                        총 여행 비용 (1인 기준)
+                    </div>
+                    <div class="total-price" id="total-price">0원</div>
+                    <div class="budget-status good" id="budget-status">
+                        예산 기준: 1,500,000원
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="./app.js"></script>
+</html>
